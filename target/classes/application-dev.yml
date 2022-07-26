@@ -1,0 +1,90 @@
+server:
+  port: 7007
+  servlet:
+    context-path: /ad-admin-index
+
+spring:
+  application:
+    name: ad-admin-index
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    click:
+      driverClassName: ru.yandex.clickhouse.ClickHouseDriver
+      url: jdbc:clickhouse://172.27.117.22:8123/tianzhuo_ad_data
+      username: default
+      password: mao147
+      initialSize: 10
+      maxActive: 100
+      minIdle: 10
+      maxWait: 6000
+
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 10
+    tomcat:
+      max-active: 4
+      min-idle: 2
+      initial-size: 2
+#  kafka:
+#    bootstrap-servers: 47.104.173.250:9092
+#    template:
+#      default-topic: mykafka #topic 名
+#      listener:
+#        concurrency: 5 #指定listener 容器中的线程数，用于提高并发量
+#      consumer:
+#        group-id: myGroup # 指定默认消费者group id
+#        client-id: 200
+#        max-poll-records: 200
+#        auto-offset-reset: earliest # 最早未被消费的offset
+#      producer:
+#        batch-size: 1000 # 每次批量发送消息的数量
+#        retries: 3
+#        client-id: 200
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*Mapper.xml,classpath:mapper/ckmapper/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+    lazy-loading-enabled: true
+    multiple-result-sets-enabled: true
+    use-generated-keys: true
+    default-statement-timeout: 60
+    default-fetch-size: 100
+  type-aliases-package: com.tianzhuo.ad.vo
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8008/eureka/
+      instance:
+        lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+        lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+        prefer-ip-address: true
+        ip-address: 127.0.0.1
+        instance-id: ${spring.application.name}:${server.port}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+#adconf:
+#  mysql:
+#    host: rm-2ze5g1ai3u9v599m03o.mysql.rds.aliyuncs.com
+#    port: 3306
+#    username: tianzhuo_admin
+#    password: Tianzhuo2020
+#    binlogName: binlog.000038
+#    position: 60451
+
+logging:
+  file:
+    max-size: 50MB # 日志文件的最大大小。默认为 20MB
+    max-history: 1 # 日志文件要保留的归档的最大天数。默认为 7 天
+  path: logs
+  level:
+    root: info

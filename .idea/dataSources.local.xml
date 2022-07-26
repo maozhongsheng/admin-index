@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="tianzhuo_ad_data@8.140.99.234" uuid="a045f217-d086-493d-b843-3c4379f0443a">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="CLICKHOUSE" exact-version="0" />
+      <secret-storage>forget</secret-storage>
+      <schema-mapping />
+    </data-source>
+    <data-source name="@82.156.126.248" uuid="353ae683-6cf7-4c02-a28d-86d64d636210">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="CLICKHOUSE" exact-version="0" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>default</user-name>
+      <schema-mapping />
+    </data-source>
+    <data-source name="@49.233.56.217" uuid="61e7a46f-6577-4adf-9ca6-0e634d8b1494">
+      <database-info product="ClickHouse" version="21.11.4.14" jdbc-version="0.1" driver-name="ru.yandex.clickhouse-jdbc" driver-version="0.3.1-patch" dbms="CLICKHOUSE" exact-version="21.11.4.14" exact-driver-version="0.3">
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>default</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="schema" qname="tianzhuo_ad_data" />
+        </introspection-scope>
+      </schema-mapping>
+    </data-source>
+    <data-source name="ClickHouse - @localhost" uuid="63b60117-6a4a-4014-9dff-b4318dcda8e7">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="CLICKHOUSE" exact-version="0" />
+      <secret-storage>master_key</secret-storage>
+      <schema-mapping />
+    </data-source>
+    <data-source name="myself" uuid="52075675-130a-4696-a01c-474ba8a56e49">
+      <database-info product="ClickHouse" version="21.9.4.35" jdbc-version="0.1" driver-name="ru.yandex.clickhouse-jdbc" driver-version="0.3.1-patch" dbms="CLICKHOUSE" exact-version="21.9.4.35" exact-driver-version="0.3">
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>default</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="schema" qname="tianzhuo_ad_data" />
+        </introspection-scope>
+      </schema-mapping>
+    </data-source>
+  </component>
+</project>

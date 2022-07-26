@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianzhuo.ad.mapper.TzAdminMapper">
+    <resultMap id="BaseResultMap" type="com.tianzhuo.ad.vo.TzAdmin">
+        <id column="date" jdbcType="DATE" property="date" />
+        <result column="date_hour" jdbcType="VARCHAR" property="date_hour" />
+        <result column="publish_id" jdbcType="VARCHAR" property="publish_id" />
+        <result column="media_id" jdbcType="VARCHAR" property="media_id" />
+        <result column="pos_id" jdbcType="VARCHAR" property="pos_id" />
+        <result column="slot_type" jdbcType="VARCHAR" property="slot_type" />
+        <result column="dsp_id" jdbcType="VARCHAR" property="dsp_id" />
+        <result column="dsp_pos_id" jdbcType="VARCHAR" property="dsp_pos_id" />
+        <result column="dsp_media_id" jdbcType="VARCHAR" property="dsp_media_id" />
+        <result column="pv_cost" jdbcType="INTEGER" property="pv_cost" />
+        <result column="click_cost" jdbcType="INTEGER" property="click_cost" />
+        <result column="req" jdbcType="INTEGER" property="req" />
+        <result column="fill" jdbcType="INTEGER" property="fill" />
+        <result column="pv" jdbcType="INTEGER" property="pv" />
+        <result column="click" jdbcType="INTEGER" property="click" />
+        <result column="download_start" jdbcType="INTEGER" property="download_start" />
+        <result column="download_end" jdbcType="INTEGER" property="download_end" />
+        <result column="install_start" jdbcType="INTEGER" property="install_start" />
+        <result column="install_end" jdbcType="INTEGER" property="install_end" />
+        <result column="activation" jdbcType="INTEGER" property="activation" />
+        <result column="deeplink" jdbcType="INTEGER" property="deeplink" />
+        <result column="ideeplink" jdbcType="INTEGER" property="ideeplink" />
+        <result column="video_start" jdbcType="INTEGER" property="video_start" />
+        <result column="video_end" jdbcType="INTEGER" property="video_end" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        date,date_hour,publish_id,media_id,pos_id,slot_type,dsp_id,dsp_pos_id,dsp_media_id,pv_cost,click_cost,req,fill,pv,click,download_start,
+        download_end,install_start,install_end,activation,deeplink,ideeplink,video_start,
+        video_end
+    </sql>
+
+    <!--数据报表展示数据 -->
+    <select id="tzAdminDataList" parameterType="com.tianzhuo.ad.vo.TzAdmin" resultMap="BaseResultMap">
+        select date as date ,
+        <if test="hour_group == 1 " >
+            date_hour,
+        </if>
+        <if test="publish_id_group == 1 " >
+            publish_id,
+        </if>
+        <if test="media_group == 1 " >
+            media_id,
+        </if>
+        <if test="slot_type_group == 1 " >
+            slot_type,
+        </if>
+        <if test="slot_group == 1 " >
+            pos_id,
+        </if>
+        <if test="dsp_name_group == 1 " >
+            dsp_id,
+        </if>
+        <if test="dsp_media_group == 1 " >
+            dsp_media_id,
+        </if>
+        <if test="dsp_slot_group == 1 " >
+            dsp_pos_id,
+        </if>
+        round(sum(pv_cost)/1000000, 2) as num ,
+        round(case when sum(pv)=0 then 0 else sum(pv_cost)/sum(pv)/1000 end  , 2) as cpm,
+        round(sum(req),2) as reqs ,
+        round(sum(fill),2) as fills ,
+        round(case when sum(fill) == 0 or sum(req) == 0 then 0 else multiply(100, divide(sum(fill),sum(req))) end, 2) as fillOs ,
+        round(sum(pv),2) as pvs ,
+        round(case when sum(pv) == 0 or sum(fill) == 0 then 0 else multiply(100, divide(sum(pv),sum(fill))) end, 2) as adEx ,
+        round(sum(click),2) as ck ,
+        round(case when sum(click) == 0 or sum(pv) == 0 then 0 else multiply(100, divide(sum(click), sum(pv))) end, 2) as ckTr ,
+        round(sum(click_cost)/1000000, 2) as ckPrice ,
+        round(sum(download_start),2) as download_start ,
+        round(sum(download_end),2) as download_end ,
+        round(sum(deeplink),2) as deeplink ,
+        round(sum(ideeplink),2) as ideeplink ,
+        round(sum(install_start),2) as install_start ,
+        round(sum(install_end),2) as install_end ,
+        round(sum(activation),2) as activation
+        from ssp_cost_local
+        where 1=1
+        <if test="dateStart != null and dateEnd != null">
+            and toDate(date) >= toDate(#{dateStart}) and toDate(date) &lt;= toDate(#{dateEnd})
+        </if>
+        <if test="pos_id != null and pos_id.size > 0">
+            <foreach collection="pos_id" open="AND pos_id IN (" close=")" item="item" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dsp_pos_id != null and dsp_pos_id.size > 0">
+            <foreach collection="dsp_pos_id" open="AND dsp_pos_id IN (" close=")" item="item" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        group by date
+        <if test="hour_group != null and hour_group == 1">
+            ,date_hour
+        </if>
+        <if test="publish_id_group != null and publish_id_group == 1">
+            ,publish_id
+        </if>
+        <if test="media_group != null and media_group == 1">
+            ,media_id
+        </if>
+        <if test="slot_type_group != null and slot_type_group == 1">
+            ,slot_type
+        </if>
+        <if test="slot_group != null and slot_group == 1">
+            ,pos_id
+        </if>
+        <if test="dsp_name_group != null and dsp_name_group == 1">
+            ,dsp_id
+        </if>
+        <if test="dsp_media_group != null and dsp_media_group == 1">
+            ,dsp_media_id
+        </if>
+        <if test="dsp_slot_group != null and dsp_slot_group == 1">
+            ,dsp_pos_id
+        </if>
+        order by date desc
+        <if test="hour_group != null and hour_group == 1">
+            ,date_hour desc
+        </if>
+        <if test="pageSize != null">
+            <if test="pageNum != null">
+                limit ${pageNum},${pageSize}
+            </if>
+            <if test="pageNum == null">
+                limit ${pageSize}
+            </if>
+        </if>
+    </select>
+    <!--数据报表展示数据下载 -->
+    <select id="tzAdminDownLoad" parameterType="com.tianzhuo.ad.vo.TzAdmin" resultMap="BaseResultMap">
+        select date as date ,
+        <if test="hour_group == 1 " >
+            date_hour,
+        </if>
+        <if test="publish_id_group == 1 " >
+            publish_id,
+        </if>
+        <if test="media_group == 1 " >
+            media_id,
+        </if>
+        <if test="slot_type_group == 1 " >
+            slot_type,
+        </if>
+        <if test="slot_group == 1 " >
+            pos_id,
+        </if>
+        <if test="dsp_name_group == 1 " >
+            dsp_id,
+        </if>
+        <if test="dsp_media_group == 1 " >
+            dsp_media_id,
+        </if>
+        <if test="dsp_slot_group == 1 " >
+            dsp_pos_id,
+        </if>
+        round(sum(pv_cost)/1000000, 2) as num ,
+        round(case when sum(pv)=0 then 0 else sum(pv_cost)/sum(pv)/1000 end  , 2) as cpm,
+        round(sum(req),2) as reqs ,
+        round(sum(fill),2) as fills ,
+        round(case when sum(fill) == 0 or sum(req) == 0 then 0 else multiply(100, divide(sum(fill),sum(req))) end, 2) as fillOs ,
+        round(sum(pv),2) as pvs ,
+        round(case when sum(pv) == 0 or sum(fill) == 0 then 0 else multiply(100, divide(sum(pv),sum(fill))) end, 2) as adEx ,
+        round(sum(click),2) as ck ,
+        round(case when sum(click) == 0 or sum(pv) == 0 then 0 else multiply(100, divide(sum(click), sum(pv))) end, 2) as ckTr ,
+        round(sum(click_cost)/1000000, 2) as ckPrice ,
+        round(sum(download_start),2) as download_start ,
+        round(sum(download_end),2) as download_end ,
+        round(sum(deeplink),2) as deeplink ,
+        round(sum(ideeplink),2) as ideeplink ,
+        round(sum(install_start),2) as install_start ,
+        round(sum(install_end),2) as install_end ,
+        round(sum(activation),2) as activation
+        from ssp_cost_local
+        where 1=1
+        <if test="dateStart != null and dateEnd != null">
+            and toDate(date) >= toDate(#{dateStart}) and toDate(date) &lt;= toDate(#{dateEnd})
+        </if>
+        <if test="pos_id != null and pos_id.size > 0">
+            <foreach collection="pos_id" open="AND pos_id IN (" close=")" item="item" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dsp_pos_id != null and dsp_pos_id.size > 0">
+            <foreach collection="dsp_pos_id" open="AND dsp_pos_id IN (" close=")" item="item" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        group by date
+        <if test="hour_group != null and hour_group == 1">
+            ,date_hour
+        </if>
+        <if test="publish_id_group != null and publish_id_group == 1">
+            ,publish_id
+        </if>
+        <if test="media_group != null and media_group == 1">
+            ,media_id
+        </if>
+        <if test="slot_type_group != null and slot_type_group == 1">
+            ,slot_type
+        </if>
+        <if test="slot_group != null and slot_group == 1">
+            ,pos_id
+        </if>
+        <if test="dsp_name_group != null and dsp_name_group == 1">
+            ,dsp_id
+        </if>
+        <if test="dsp_media_group != null and dsp_media_group == 1">
+            ,dsp_media_id
+        </if>
+        <if test="dsp_slot_group != null and dsp_slot_group == 1">
+            ,dsp_pos_id
+        </if>
+        order by date desc
+        <if test="hour_group != null and hour_group == 1">
+            ,date_hour desc
+        </if>
+    </select>
+    <select id="selectTzAdminDataListCount" parameterType="com.tianzhuo.ad.vo.Request.TzSspRequestDTO" resultType="java.lang.Integer">
+        select count(distinct date
+        <if test="publish_id_group == 1 " >
+            ,publish_id
+        </if>
+        <if test="media_group == 1 " >
+            ,media_id
+        </if>
+        <if test="slot_type_group == 1 " >
+            ,slot_type
+        </if>
+        <if test="slot_group == 1 " >
+            ,pos_id
+        </if>
+        <if test="dsp_name_group == 1 " >
+            ,dsp_id
+        </if>
+        <if test="dsp_media_group == 1 " >
+            ,dsp_media_id
+        </if>
+        <if test="dsp_slot_group == 1 " >
+            ,dsp_pos_id
+        </if>
+        )
+        from ssp_cost_local
+        where 1=1
+        <if test="dateStart != null and dateEnd != null">
+            and toDate(date) >= toDate(#{dateStart}) and toDate(date) &lt;= toDate(#{dateEnd})
+        </if>
+        <if test="pos_id != null and pos_id.size > 0">
+            <foreach collection="pos_id" open="AND pos_id IN (" close=")" item="item" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+    <select id="selectTzAdminDataListCountHour" parameterType="com.tianzhuo.ad.vo.Request.TzSspRequestDTO" resultType="java.lang.Integer">
+        select count(distinct date,date_hour
+        <if test="publish_id_group == 1 " >
+            ,publish_id
+        </if>
+        <if test="media_group == 1 " >
+            ,media_id
+        </if>
+        <if test="slot_type_group == 1 " >
+            ,slot_type
+        </if>
+        <if test="slot_group == 1 " >
+            ,pos_id
+        </if>
+        <if test="dsp_name_group == 1 " >
+            ,dsp_id
+        </if>
+        <if test="dsp_media_group == 1 " >
+            ,dsp_media_id
+        </if>
+        <if test="dsp_slot_group == 1 " >
+            ,dsp_pos_id
+        </if>
+        )
+        from ssp_cost_local
+        where 1=1
+        <if test="dateStart != null and dateEnd != null">
+            and toDate(date) >= toDate(#{dateStart}) and toDate(date) &lt;= toDate(#{dateEnd})
+        </if>
+        <if test="pos_id != null and pos_id.size > 0">
+            <foreach collection="pos_id" open="AND pos_id IN (" close=")" item="item" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+    <!--数据总览 -->
+    <select id="slotIndexList" parameterType="com.tianzhuo.ad.vo.TzAdmin" resultMap="BaseResultMap">
+        select
+        round(sum(pv_cost)/1000000, 2) as num ,
+        round(case when sum(pv)=0 then 0 else sum(pv_cost)/sum(pv)/1000 end  , 2) as cpm,
+        round(case when sum(click) == 0 or sum(pv) == 0 then 0 else multiply(100, divide(sum(click), sum(pv))) end, 2) as ckTr ,
+        round(case when sum(pv) == 0 or sum(fill) == 0 then 0 else multiply(100, divide(sum(pv),sum(fill))) end, 2) as adEx ,
+        round(case when sum(fill) == 0 or sum(req) == 0 then 0 else multiply(100, divide(sum(fill),sum(req))) end, 2) as fillOs ,
+        round(sum(req),2) as reqs ,
+        round(sum(fill),2) as fills ,
+        round(sum(pv),2) as pvs ,
+        round(sum(click),2) as ck
+        from ssp_cost_local
+        where 1=1
+        <if test="dateStart != null and dateEnd != null">
+            and toDate(date) >= toDate(#{dateStart}) and toDate(date) &lt;= toDate(#{dateEnd})
+        </if>
+        <if test="pos_id != null and pos_id.size > 0">
+            <foreach collection="pos_id" open="AND pos_id IN (" close=")" item="item" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dsp_pos_id != null and dsp_pos_id.size > 0">
+            <foreach collection="dsp_pos_id" open="AND dsp_pos_id IN (" close=")" item="item" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+    <!--数据报表展示数据 -->
+    <select id="selectLineAll" parameterType="com.tianzhuo.ad.vo.TzAdmin" resultMap="BaseResultMap">
+        select date as date ,
+        <if test="hour_group == 1 " >
+            date_hour,
+        </if>
+        round(sum(pv_cost)/1000000, 2) as num ,
+        round(case when sum(pv)=0 then 0 else sum(pv_cost)/sum(pv)/1000 end  , 2) as cpm,
+        round(sum(req),2) as reqs ,
+        round(sum(fill),2) as fills ,
+        round(sum(pv),2) as pvs ,
+        round(sum(click),2) as ck ,
+        round(case when sum(fill) == 0 or sum(req) == 0 then 0 else multiply(100, divide(sum(fill),sum(req))) end, 2) as fillOs ,
+        round(case when sum(pv) == 0 or sum(fill) == 0 then 0 else multiply(100, divide(sum(pv),sum(fill))) end, 2) as adEx ,
+        round(case when sum(click) == 0 or sum(pv) == 0 then 0 else multiply(100, divide(sum(click), sum(pv))) end, 2) as ckTr ,
+        round(sum(click_cost)/1000000, 2) as ckPrice
+        from ssp_cost_local
+        where 1=1
+        <if test="dateStart != null and dateEnd != null">
+            and toDate(date) >= toDate(#{dateStart}) and toDate(date) &lt;= toDate(#{dateEnd})
+        </if>
+        <if test="pos_id != null and pos_id.size > 0">
+            <foreach collection="pos_id" open="AND pos_id IN (" close=")" item="item" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dsp_pos_id != null and dsp_pos_id.size > 0">
+            <foreach collection="dsp_pos_id" open="AND dsp_pos_id IN (" close=")" item="item" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        group by date
+        <if test="hour_group != null and hour_group == 1">
+            ,date_hour
+        </if>
+        order by date asc
+        <if test="hour_group != null and hour_group == 1">
+            ,date_hour asc
+        </if>
+    </select>
+    <!-- ADMIN首页-财务概览-广告数据 -->
+    <select id="selectConsumption" resultMap="BaseResultMap">
+       select
+       round(sum(pv_cost)/1000000, 2) as num ,
+       round(sum(req),2) as reqs ,
+       round(sum(fill),2) as fills ,
+       round(case when sum(fill) == 0 or sum(req) == 0 then 0 else multiply(100, divide(sum(fill),sum(req))) end, 2) as fillOs ,
+       round(sum(pv),2) as pvs ,
+       round(case when sum(pv) == 0 or sum(fill) == 0 then 0 else multiply(100, divide(sum(pv),sum(fill))) end, 2) as adEx ,
+       round(sum(click),2) as ck ,
+       round(case when sum(click) == 0 or sum(pv) == 0 then 0 else multiply(100, divide(sum(click), sum(pv))) end, 2) as ckTr
+       from ssp_cost_local
+       where today() = date
+    </select>
+    <!-- SSP折线统计 -->
+    <select id="selectDataLine" resultMap="BaseResultMap">
+       select
+       date as date ,
+       date_hour as date_hour ,
+       round(sum(req),2) as reqs ,
+       round(sum(fill),2) as fills ,
+       round(sum(pv),2) as pvs ,
+       round(sum(click),2) as ck
+       from ssp_cost_local
+       where today() = date
+       group by date,date_hour
+       order by date_hour asc
+    </select>
+    <!-- SSP折线统计收入 -->
+    <select id="selectDataLineNum" resultMap="BaseResultMap">
+       select
+       date as date ,
+       date_hour as date_hour ,
+       round(case when sum(pv)=0 then 0 else sum(pv_cost)/sum(pv)/1000 end  , 2) as cpm,
+       round(sum(click_cost)/1000000, 2) as ckPrice ,
+       round(sum(pv_cost)/1000000, 2) as num
+       from ssp_cost_local
+       where today() = date
+       group by date,date_hour
+       order by date_hour asc
+    </select>
+    <!-- 首页Top -->
+    <select id="selectTopList" resultMap="BaseResultMap">
+        select publish_id as publish_id ,
+        round(sum(pv_cost)/1000000, 2) as num ,
+        round(sum(pv),2) as pvs ,
+        round(sum(click),2) as ck
+        from ssp_cost_local
+        where today() = date
+        group by publish_id
+        order by num desc
+        limit 10
+    </select>
+
+    <!--查询时长 -->
+    <select id="adminTimeDate" parameterType="com.tianzhuo.ad.vo.Request.AdminTimeDateReqDTO" resultType="com.tianzhuo.ad.vo.Response.AdminTimeDateDTO">
+        select toDate(date_time) date , toHour(date_time) hour, avg(cost_time) as alltime, avg(ad_cost_time) as uptime from ssp_ods_cost_local where date = toDate(#{dateStart}) and pos_id = #{pos_id} and fill = 1 group by date,hour;
+    </select>
+</mapper>

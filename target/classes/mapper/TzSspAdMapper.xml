@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tianzhuo.ad.mapper.TzSspAdMapper">
+    <resultMap id="BaseResultMap" type="com.tianzhuo.ad.vo.TzSspAd">
+        <id column="date" jdbcType="DATE" property="date" />
+        <result column="publish_id" jdbcType="VARCHAR" property="publish_id" />
+        <result column="media_id" jdbcType="VARCHAR" property="media_id" />
+        <result column="platform" jdbcType="VARCHAR" property="platform" />
+        <result column="slot_type" jdbcType="VARCHAR" property="slot_type" />
+        <result column="pos_id" jdbcType="VARCHAR" property="pos_id" />
+        <result column="dsp_id" jdbcType="VARCHAR" property="dsp_id" />
+        <result column="dsp_pos_id" jdbcType="VARCHAR" property="dsp_pos_id" />
+        <result column="plant_id" jdbcType="VARCHAR" property="plant_id" />
+        <result column="ad_id" jdbcType="VARCHAR" property="ad_id" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="desc" jdbcType="VARCHAR" property="desc" />
+        <result column="dsp_name" jdbcType="VARCHAR" property="dsp_name" />
+        <result column="click_type" jdbcType="VARCHAR" property="click_type" />
+        <result column="bid_count" jdbcType="VARCHAR" property="bid_count" />
+        <result column="images" jdbcType="VARCHAR" property="images" />
+        <result column="bundle" jdbcType="VARCHAR" property="bundle" />
+        <result column="request_cn" jdbcType="INTEGER" property="request_cn" />
+        <result column="pv" jdbcType="INTEGER" property="pv" />
+        <result column="pv_ip_cn" jdbcType="INTEGER" property="pv_ip_cn" />
+        <result column="pv_uv" jdbcType="VARCHAR" property="pv_uv" />
+        <result column="cpm" jdbcType="INTEGER" property="cpm" />
+        <result column="click" jdbcType="INTEGER" property="click" />
+        <result column="cl_ip_cn" jdbcType="INTEGER" property="cl_ip_cn" />
+        <result column="cl_uv" jdbcType="VARCHAR" property="cl_uv" />
+        <result column="cpc" jdbcType="INTEGER" property="cpc" />
+        <result column="download_start" jdbcType="INTEGER" property="download_start" />
+        <result column="download_end" jdbcType="INTEGER" property="download_end" />
+        <result column="install_start" jdbcType="INTEGER" property="install_start" />
+        <result column="install_end" jdbcType="INTEGER" property="install_end" />
+        <result column="activation" jdbcType="INTEGER" property="activation" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        date,publish_id,media_id,platform,slot_type,pos_id,dsp_id,dsp_pos_id,plant_id,ad_id,title,
+        desc,dsp_name,click_type,bid_count,images,bundle,request_cn,pv,pv_ip_cn,pv_uv,cpm,click,cl_ip_cn,
+        cl_uv,cpc,download_start,download_end,install_start,install_end,activationw
+    </sql>
+    <select id="selectAdSspData" parameterType="com.tianzhuo.ad.vo.TzSspAd" resultMap="BaseResultMap">
+        select date as date ,
+        divide(round(sum(cpm*pv),2),1000000) as num ,
+        round(sum(pv),2) as pvs ,
+        round(divide(sum(pv),sum(distinct pv)),2) as pvsUv ,
+        divide(round(divide(sum(multiply(cpm,pv)),sum(pv)),2),1000) as eCpm ,
+        round(sum(click),2) as ck ,
+        round(case when sum(click) == 0 or sum(pv) == 0 then 0 else multiply(100, divide(sum(click), sum(pv))) end, 2) as ckTr ,
+        round(divide(sum(click),sum(distinct click)),2) as ckUv ,
+        divide(round(sum(cpc*click),2),1000000) as sumCpc
+        from dws_dsp_ad_info_dd_all
+        where 1=1
+        <if test="dateStart != null and dateEnd != null">
+            and toDate(date) >= toDate(#{dateStart}) and toDate(date) &lt;= toDate(#{dateEnd})
+        </if>
+        <if test="pos_id != null and pos_id.size > 0">
+            <foreach collection="pos_id" open="AND pos_id IN (" close=")" item="item" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        group by date
+    </select>
+    <select id="selectAdSspDataList" parameterType="com.tianzhuo.ad.vo.TzSspAd" resultMap="BaseResultMap">
+        select date as date ,
+        title as title ,
+        images as images ,
+        dsp_name as dsp_name ,
+        click_type as click_type ,
+        desc as desc ,
+        <if test="media_group == 1 " >
+            media_id,
+        </if>
+        <if test="slot_type_group == 1 " >
+            slot_type,
+        </if>
+        <if test="slot_group == 1 " >
+            pos_id,
+        </if>
+        sum(download_start) as download_start ,
+        sum(download_end) as download_end ,
+        sum(install_start) as install_start ,
+        sum(install_end) as install_end ,
+        sum(activation) as activation ,
+        sum(pv) as pvs ,
+        sum(click) as ck
+        from dws_dsp_ad_info_dd_all
+        <if test="dateStart != null and dateEnd != null">
+            where toDate(date) >= toDate(#{dateStart}) and toDate(date) &lt;= toDate(#{dateEnd})
+        </if>
+        <if test="pos_id != null and pos_id.size > 0">
+            <foreach collection="pos_id" open="AND pos_id IN (" close=")" item="item" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        group by date,title,images,dsp_name,click_type,desc
+        <if test="media_group != null and media_group == 1">
+            ,media_id
+        </if>
+        <if test="slot_type_group != null and slot_type_group == 1">
+            ,slot_type
+        </if>
+        <if test="slot_group != null and slot_group == 1">
+            ,pos_id
+        </if>
+        order by date desc
+        <if test="pageSize != null">
+            <if test="pageNum != null">
+                limit ${pageNum},${pageSize}
+            </if>
+            <if test="pageNum == null">
+                limit ${pageSize}
+            </if>
+        </if>
+    </select>
+    <select id="selectCount" parameterType="com.tianzhuo.ad.vo.TzSspAd" resultType="java.lang.Integer">
+        select count(date)
+        from dws_dsp_ad_info_dd_all
+        where 1=1
+        <if test="dateStart != null and dateEnd != null">
+            and toDate(date) >= toDate(#{dateStart}) and toDate(date) &lt;= toDate(#{dateEnd})
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,52 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.tianzhuo.ad.config.JdbcParamConfig",
+      "name": "spring.datasource.click",
+      "type": "com.tianzhuo.ad.config.JdbcParamConfig"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.tianzhuo.ad.config.JdbcParamConfig",
+      "name": "spring.datasource.click.driver-class-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tianzhuo.ad.config.JdbcParamConfig",
+      "name": "spring.datasource.click.initial-size",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.tianzhuo.ad.config.JdbcParamConfig",
+      "name": "spring.datasource.click.max-active",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.tianzhuo.ad.config.JdbcParamConfig",
+      "name": "spring.datasource.click.max-wait",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.tianzhuo.ad.config.JdbcParamConfig",
+      "name": "spring.datasource.click.min-idle",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.tianzhuo.ad.config.JdbcParamConfig",
+      "name": "spring.datasource.click.password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tianzhuo.ad.config.JdbcParamConfig",
+      "name": "spring.datasource.click.url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.tianzhuo.ad.config.JdbcParamConfig",
+      "name": "spring.datasource.click.username",
+      "type": "java.lang.String"
+    }
+  ]
+}

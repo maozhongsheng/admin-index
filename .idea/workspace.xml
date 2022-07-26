@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="eb671f75-bb0c-4be5-89ca-9bb99307e44b" name="Default Changelist" comment="正式" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/resources/mapper/TzAdminMapper.xml" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="E:\dev\repository" />
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../dev/apache-maven-3.8.1" />
+        <option name="userSettingsFile" value="E:\dev\apache-maven-3.8.1\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2789rjkvll0RoWgRZiIgj8qrUzS" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="clickhouse" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="database.data.extractors.current.export.id" value="SQL Inserts" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RunManager" selected="Spring Boot.SspApplication">
+    <configuration name="TzAdminBiddingController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.tianzhuo.ad.controller.TzAdminBiddingController" />
+      <module name="admin-java-index" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.tianzhuo.ad.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SspApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="admin-java-index" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.tianzhuo.ad.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.tianzhuo.ad.SspApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.SspApplication" />
+        <item itemvalue="Application.TzAdminBiddingController" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eb671f75-bb0c-4be5-89ca-9bb99307e44b" name="Default Changelist" comment="" />
+      <created>1648691047264</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1648691047264</updated>
+      <workItem from="1648691049762" duration="1157000" />
+      <workItem from="1648717870556" duration="154000" />
+      <workItem from="1649817532544" duration="3097000" />
+      <workItem from="1649841583207" duration="68000" />
+      <workItem from="1649900876684" duration="92000" />
+      <workItem from="1649993880355" duration="1217000" />
+      <workItem from="1650610504950" duration="1401000" />
+      <workItem from="1650615964680" duration="78000" />
+      <workItem from="1650616361916" duration="648000" />
+      <workItem from="1654509725979" duration="983000" />
+      <workItem from="1655713079904" duration="6955000" />
+      <workItem from="1655775387683" duration="3235000" />
+      <workItem from="1655891994578" duration="1283000" />
+      <workItem from="1655948270008" duration="2150000" />
+      <workItem from="1655953346162" duration="25000" />
+      <workItem from="1655955834339" duration="12111000" />
+      <workItem from="1656035201591" duration="9031000" />
+      <workItem from="1656048798851" duration="97000" />
+      <workItem from="1656048906510" duration="1093000" />
+      <workItem from="1656294678084" duration="517000" />
+      <workItem from="1656489595846" duration="5002000" />
+      <workItem from="1656498322029" duration="145000" />
+      <workItem from="1656553239254" duration="1907000" />
+      <workItem from="1658121524536" duration="2291000" />
+      <workItem from="1658286589951" duration="95000" />
+      <workItem from="1658397595729" duration="502000" />
+    </task>
+    <task id="LOCAL-00001" summary="正式">
+      <created>1649841619237</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1649841619237</updated>
+    </task>
+    <task id="LOCAL-00002" summary="正式">
+      <created>1649900922933</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1649900922933</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="正式" />
+    <option name="LAST_COMMIT_MESSAGE" value="正式" />
+  </component>
+</project>
